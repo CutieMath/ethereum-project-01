@@ -4,4 +4,3 @@ node_modules
 contracts/.placeholder
 test/.placeholder
 build
-truffle-config.js
