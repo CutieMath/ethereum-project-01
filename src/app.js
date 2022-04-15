@@ -89,7 +89,7 @@ App = {
             $newTaskTemplate.find('input')
                             .prop('name', taskId)
                             .prop('checked', taskCompleted)
-                            // .on('click', App.toggleCompleted)
+                            .on('click', App.toggleCompleted)
 
             // put the task in th correct list
             if (taskCompleted) {
@@ -109,6 +109,13 @@ App = {
         // call the smart contract function
         await App.todo.createTask(content)
         // refresh the page
+        window.location.reload()
+    },
+
+    toggleCompleted: async (e) => {
+        App.setLoading(true)
+        const taskId = e.target.name 
+        await App.todo.toggleCompleted(taskId)
         window.location.reload()
     },
 
