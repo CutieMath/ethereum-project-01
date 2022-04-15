@@ -16,6 +16,12 @@ contract Todo {
     // Make a place to put the tasks: create a storage on blockchain
     mapping(uint => Task) public tasks; // state variable
 
+    event TaskCreated(
+        uint id, 
+        string content, 
+        bool completed
+    );
+
     // Constructor for the smart contract
     constructor() public {
         // Default task
@@ -26,6 +32,8 @@ contract Todo {
     function createTask(string memory _content) public {
         taskCount ++;
         tasks[taskCount] = Task(taskCount, _content, false);
+        // broadcast an event when a task is created
+        emit TaskCreated(taskCount, _content, false);
     }
 
 
