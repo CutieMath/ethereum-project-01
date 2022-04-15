@@ -5,6 +5,7 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
+        await App.render()
     },
 
     loadWeb3: async () => {
@@ -53,8 +54,12 @@ App = {
 
         // Fill the smart contract with values stored in blockchain
         App.todo = await App.contracts.Todo.deployed()
-
     },
+
+    render: async () => {
+        // add the App.account information to the html element (id: account)
+        $('#account').html(App.account)
+    }
 }
 
 $(() => {
