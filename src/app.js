@@ -1,8 +1,10 @@
 // Create the JS app that talks to the blockchain
 App = {
+    contracts: {},
     load: async () => {
         await App.loadWeb3()
         await App.loadAccount()
+        await App.loadContract()
     },
 
     loadWeb3: async () => {
@@ -39,7 +41,15 @@ App = {
 
       loadAccount: async () => {
           App.account = web3.eth.accounts[0];
-      }
+      },
+
+      loadContract: async () => {
+        // Pull out the smart contract JSON file
+        const todo = await $.getJSON('Todo.json')
+        App.contracts.Todo = TruffleContract(todo)
+        App.contracts.Todo.setProvider(App.web3Provider)
+        console.log(todo)
+      },
 }
 
 $(() => {
