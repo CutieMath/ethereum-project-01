@@ -103,6 +103,15 @@ App = {
         }
     },  
 
+    createTask: async () => {
+        App.setLoading(true)
+        const content = $('#newTask').val()
+        // call the smart contract function
+        await App.todo.createTask(content)
+        // refresh the page
+        window.location.reload()
+    },
+
     // loading function to prevent double loading 
     // In service for the function above
     setLoading: (boolean) => {
