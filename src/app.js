@@ -1,5 +1,6 @@
 // Create the JS app that talks to the blockchain
 App = {
+    loading: false,
     contracts: {},
     load: async () => {
         await App.loadWeb3()
@@ -57,9 +58,31 @@ App = {
     },
 
     render: async () => {
+        // prevent double rendering
+        if (App.loading) {
+            return
+        }
+
+        App.setLoading(true)
         // add the App.account information to the html element (id: account)
         $('#account').html(App.account)
-    }
+        App.setLoading(false)
+    }, 
+
+    // loading function to prevent double loading 
+    // In service for the function above
+    setLoading: (boolean) => {
+        App.loading = boolean
+        const loader = $('#loader')
+        const content = $('#content')
+        if (boolean) {
+            loader.show()
+            content.hide()
+        } else {
+            loader.hide()
+            content.show()
+        }
+    },
 }
 
 $(() => {
