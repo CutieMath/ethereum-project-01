@@ -46,10 +46,15 @@ App = {
       loadContract: async () => {
         // Pull out the smart contract JSON file
         const todo = await $.getJSON('Todo.json')
+        // Create a truffle contract
+        //  - A JS representation of the smart contract
         App.contracts.Todo = TruffleContract(todo)
         App.contracts.Todo.setProvider(App.web3Provider)
-        console.log(todo)
-      },
+        
+        // Fill the smart contract with values stored in blockchain
+        App.todo = await App.contracts.Todo.deployed()
+        console.log(App.todo);
+    },
 }
 
 $(() => {
