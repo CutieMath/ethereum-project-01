@@ -66,8 +66,42 @@ App = {
         App.setLoading(true)
         // add the App.account information to the html element (id: account)
         $('#account').html(App.account)
+        // render tasks
+        await App.renderTasks()
         App.setLoading(false)
     }, 
+
+    renderTasks: async () => {
+        // load the number of tasks from the blockchain
+        const taskCount = await App.todo.taskCount()
+        const $taskTemplate = $('.taskTemplate')
+
+        // render each task with a new task template
+        for (let i = 1; i <= taskCount; i ++) {
+            const task = await App.todo.tasks(i)
+            const taskId = task[0].toNumber()
+            const taskContent = task[1]
+            const taskCompleted = task[2]
+            
+            // add HTML element for the task
+            const $newTaskTemplate = $taskTemplate.clone()
+            $newTaskTemplate.find('.content').html(taskContent)
+            $newTaskTemplate.find('input')
+                            .prop('name', taskId)
+                            .prop('checked', taskCompleted)
+                            // .on('click', App.toggleCompleted)
+
+            // put the task in th correct list
+            if (taskCompleted) {
+                $('#completedTaskList').append($newTaskTemplate)
+            } else {
+                $('#taskList').append($newTaskTemplate)
+            }
+
+            // add task to the UI
+            $newTaskTemplate.show()
+        }
+    },  
 
     // loading function to prevent double loading 
     // In service for the function above
